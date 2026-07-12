@@ -1,0 +1,115 @@
+1
+00:00:00,000 --> 00:00:04,000
+SmartMaint — L.C PROD. A GMAO for a Moroccan edible-oil plant.
+
+2
+00:00:04,000 --> 00:00:08,500
+Real-time sync across 27 tables. Offline French voice dictation.
+
+3
+00:00:08,500 --> 00:00:12,500
+Arabic RTL for the shop floor. Windows installer with auto-update.
+
+4
+00:00:12,500 --> 00:00:15,000
+Full-stack Next.js and Supabase. Let me show you.
+
+5
+00:00:15,000 --> 00:00:20,000
+The admin cockpit — every KPI live-computed from intervention history.
+
+6
+00:00:20,000 --> 00:00:25,500
+Every machine has a QR code, a criticality score, and a full audit trail.
+
+7
+00:00:25,500 --> 00:00:30,500
+Interventions are Kanban — click and drag to reassign or close.
+
+8
+00:00:30,500 --> 00:00:37,500
+All 27 tables sync in real time — ~180 ms across all logged-in sessions.
+
+9
+00:00:45,000 --> 00:00:51,000
+The technician view is mobile-friendly, meant for a tablet on the shop floor.
+
+10
+00:00:51,000 --> 00:00:57,000
+Every text field has a microphone — Whisper-small, 240 MB, running in the browser.
+
+11
+00:00:57,000 --> 00:01:03,500
+So the technician can dictate their report in French even offline.
+
+12
+00:01:03,500 --> 00:01:09,000
+Photos tag automatically as "before" or "after".
+
+13
+00:01:09,000 --> 00:01:15,000
+And a QR scanner jumps straight to the machine card. Instant identification.
+
+14
+00:01:20,000 --> 00:01:26,000
+The operator interface is Arabic, right-to-left, kiosk-first.
+
+15
+00:01:26,000 --> 00:01:31,500
+Giant tactile buttons for panic, quality defect, and requesting EPI.
+
+16
+00:01:31,500 --> 00:01:37,000
+No training required — an operator filed their first report in under 20 s.
+
+17
+00:01:37,000 --> 00:01:44,000
+Every request lands instantly on the admin's screen.
+
+18
+00:01:50,000 --> 00:01:56,000
+And the piece I'm most proud of technically — auto-update, on Windows.
+
+19
+00:01:56,000 --> 00:02:02,500
+Getting this to work was a two-week deep dive.
+
+20
+00:02:02,500 --> 00:02:09,000
+The launcher wraps Node in a Windows Job Object with KILL_ON_JOB_CLOSE.
+
+21
+00:02:09,000 --> 00:02:14,500
+That normally kills every child process when the launcher exits —
+
+22
+00:02:14,500 --> 00:02:19,500
+so my restart script kept dying with its parent.
+
+23
+00:02:19,500 --> 00:02:25,000
+Fix: ask WMI to spawn PowerShell — the child ends up outside the Job.
+
+24
+00:02:25,000 --> 00:02:30,000
+55,000 lines of TypeScript. 80 user stories. 15 sprints.
+
+25
+00:02:30,000 --> 00:02:34,500
+Three roles, three languages, one platform.
+
+26
+00:02:34,500 --> 00:02:40,000
+Full source, architecture doc, and blog write-ups are on GitHub.
+
+27
+00:02:40,000 --> 00:02:47,000
+Live demo in the description. My LinkedIn is on screen.
+
+28
+00:02:47,000 --> 00:02:52,000
+If you're hiring a full-stack engineer for industrial software, DM me.
+
+29
+00:02:52,000 --> 00:02:58,000
+Thanks for watching.

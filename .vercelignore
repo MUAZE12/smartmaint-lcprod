@@ -1,0 +1,33 @@
+# Excludes from Vercel deployment.
+# The 240 MB Whisper model is hosted on Supabase Storage instead;
+# transcription.ts probes /models/ first then falls back to Supabase.
+
+# Whisper model (hosted on Supabase Storage)
+public/models/
+
+# Windows installer artifacts (not needed in cloud)
+*.bat
+*.cs
+*.iss
+SmartMaintLauncher.*
+publish-secret.txt
+update-channel.txt
+version.txt
+
+# Build / dev outputs
+.next/
+node_modules/
+*.zip
+
+# Windows desktop artifacts (built locally, never run on Vercel)
+runtime/
+installer/
+gmao/
+SmartMaint - L.C PROD.exe
+deploy-output.txt
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hors ligne — SmartMaint</title>
+<style>
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body {
+    margin: 0; min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(160deg, #0f172a 0%, #1e293b 100%);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+}
+.card {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 40px 32px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+}
+.icon {
+    width: 72px; height: 72px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #1e40af);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(59, 130, 246, 0); }
+}
+h1 { font-size: 24px; font-weight: 700; margin: 0 0 8px; letter-spacing: -0.02em; }
+p { color: #cbd5e1; margin: 0 0 20px; line-height: 1.5; font-size: 14.5px; }
+.btn {
+    background: linear-gradient(135deg, #3b82f6, #1e40af);
+    color: white; border: none;
+    padding: 12px 28px; border-radius: 12px;
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+    font-family: inherit;
+}
+.tips {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 12.5px;
+    color: #94a3b8;
+    text-align: left;
+    line-height: 1.6;
+}
+.tips strong { color: #cbd5e1; }
+</style>
+</head>
+<body>
+<div class="card">
+    <div class="icon">📡</div>
+    <h1>Hors ligne</h1>
+    <p>Pas de connexion détectée. Vérifiez votre Wi-Fi ou votre réseau mobile.</p>
+    <button class="btn" onclick="location.reload()">Réessayer</button>
+    <div class="tips">
+        <strong>En attendant :</strong><br>
+        • Les données déjà chargées restent accessibles (lecture seule)<br>
+        • La synchronisation reprendra automatiquement au retour du réseau<br>
+        • Les modifications faites hors ligne seront perdues — attendez d'être en ligne pour modifier
+    </div>
+</div>
+</body>
+</html>

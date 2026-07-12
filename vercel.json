@@ -1,0 +1,21 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
+    {
+      "path": "/api/cron/daily-alerts",
+      "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/cron/weekly-report",
+      "schedule": "0 7 * * 1"
+    },
+    {
+      "path": "/api/cron/predictive-alerts",
+      "schedule": "30 6 * * *"
+    },
+    {
+      "path": "/api/cron/meeting-reminders",
+      "schedule": "0 6 * * *"
+    }
+  ]
+}

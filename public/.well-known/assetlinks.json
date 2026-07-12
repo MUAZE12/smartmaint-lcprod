@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "app.vercel.smartmaint_lcprod.twa",
+    "sha256_cert_fingerprints": ["26:C8:94:36:D6:D6:18:79:F0:35:80:6D:BA:96:73:8C:02:6C:64:FF:A1:96:FA:9E:A4:4C:FD:4C:4F:10:FE:F8"]
+  }
+}]

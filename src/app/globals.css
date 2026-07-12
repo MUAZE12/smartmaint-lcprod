@@ -1,0 +1,1699 @@
+@import "tailwindcss";
+
+/* ============================================
+   SmartMaint — L.C PROD — Design System V3
+   Futuristic Industrial Theme
+   ============================================ */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Tailwind v4 class-based dark variant */
+@variant dark (&:is(.dark *));
+
+:root {
+  /* ── Enterprise industrial palette (redesigned 2026-07)
+     Inspired by SAP Fiori / Siemens Opcenter / IBM Maximo.
+     Muted deep navy + warm amber accent — no rainbow gradients. */
+  --primary: #0b3a86;
+  --primary-light: #1a4fa8;
+  --primary-lighter: #eef2fb;
+  --primary-dark: #082b64;
+
+  /* Accents */
+  --accent-green: #059669;
+  --accent-green-light: #d1fae5;
+  --accent-red: #dc2626;
+  --accent-red-light: #fee2e2;
+  --accent-orange: #d97706;
+  --accent-orange-light: #fef3c7;
+  --accent-purple: #7c3aed;
+  --accent-purple-light: #ede9fe;
+  --accent-cyan: #06b6d4;
+  --accent-cyan-light: #cffafe;
+
+  /* Surfaces — softer, higher contrast for enterprise reading */
+  --background: #f4f6fb;
+  --foreground: #0b1220;
+  --surface: #ffffff;
+  --surface-hover: #eff2f8;
+  --surface-active: #e3e8f2;
+  --border: #dfe4ee;
+  --border-light: #eef1f7;
+
+  /* Text — tighter tonal ladder */
+  --text-primary: #0b1220;
+  --text-secondary: #3f4a63;
+  --text-muted: #7c8aa3;
+
+  /* Sidebar — deep enterprise navy, not black */
+  --sidebar-bg: #0b1220;
+  --sidebar-text: #a4b0c7;
+  --sidebar-text-active: #ffffff;
+  --sidebar-hover: #14203a;
+  --sidebar-active: #0b3a86;
+
+  /* Shadows — flatter, tighter, industrial */
+  --shadow-sm: 0 1px 2px rgba(11, 18, 32, 0.05);
+  --shadow-md: 0 2px 6px rgba(11, 18, 32, 0.08), 0 1px 2px rgba(11, 18, 32, 0.04);
+  --shadow-lg: 0 8px 20px rgba(11, 18, 32, 0.10), 0 2px 6px rgba(11, 18, 32, 0.06);
+  --shadow-glow: 0 0 0 3px rgba(11, 58, 134, 0.14);
+
+  /* Radius — slightly smaller, more industrial */
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+}
+
+/* ============================================
+   DARK MODE — Enterprise (deep navy with amber accent)
+   ============================================ */
+:root.dark {
+  /* Primary — Enterprise navy stays consistent with light mode */
+  --primary: #3f6dc1;
+  --primary-light: #5786d6;
+  --primary-lighter: rgba(63, 109, 193, 0.16);
+  --primary-dark: #2a4d94;
+
+  /* Accents stay vibrant */
+  --accent-green: #10b981;
+  --accent-green-light: rgba(16, 185, 129, 0.15);
+  --accent-red: #f43f5e;
+  --accent-red-light: rgba(244, 63, 94, 0.12);
+  --accent-orange: #f97316;
+  --accent-orange-light: rgba(249, 115, 22, 0.12);
+  --accent-purple: #a78bfa;
+  --accent-purple-light: rgba(167, 139, 250, 0.12);
+  --accent-cyan: #22d3ee;
+  --accent-cyan-light: rgba(34, 211, 238, 0.12);
+
+  /* Surfaces — deep navy */
+  --background: #0a0f1e;
+  --foreground: #e2e8f0;
+  --surface: #111827;
+  --surface-hover: #1e293b;
+  --surface-active: #334155;
+  --border: #1e293b;
+  --border-light: rgba(255, 255, 255, 0.06);
+
+  /* Text */
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* Sidebar — darker */
+  --sidebar-bg: #070b14;
+  --sidebar-text: #64748b;
+  --sidebar-text-active: #ffffff;
+  --sidebar-hover: #111827;
+  --sidebar-active: #06b6d4;
+
+  /* Shadows — glow-based */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 24px rgba(6, 182, 212, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans, 'Inter', system-ui, -apple-system, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Prevent off-screen slide-over panels (position:fixed; right:0; translateX(100%))
+   from creating a horizontal scrollable area — dragging right used to reveal the
+   profile panel sitting off-canvas. */
+html, body { overflow-x: hidden; }
+
+/* ============================================
+   Glassmorphism utility
+   ============================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .glass {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes neonPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(6,182,212,0.3), 0 0 24px rgba(6,182,212,0.1); }
+  50% { box-shadow: 0 0 16px rgba(6,182,212,0.5), 0 0 48px rgba(6,182,212,0.2); }
+}
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes progressRing {
+  from { stroke-dashoffset: 283; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideInLeft 0.3s ease-out forwards;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+.animate-neon-pulse {
+  animation: neonPulse 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Scanner animations */
+@keyframes scanLineMove {
+  0% { top: 10%; }
+  50% { top: 85%; }
+  100% { top: 10%; }
+}
+
+@keyframes laserGlow {
+  0%, 100% { opacity: 0.6; box-shadow: 0 0 8px rgba(249,115,22,0.4); }
+  50% { opacity: 1; box-shadow: 0 0 20px rgba(249,115,22,0.7); }
+}
+
+@keyframes cornerPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* Bottom sheet slide up */
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 150;
+  background: var(--surface);
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
+  animation: slideUp 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ============================================
+   Card Component
+   ============================================ */
+/* Enterprise card — flat, tight border, hairline shadow, no
+   translateY on hover (kept as CSS-only calm interaction). */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 2px rgba(11, 18, 32, 0.03);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.card:hover {
+  border-color: #cbd3e1;
+  box-shadow: 0 1px 2px rgba(11, 18, 32, 0.04),
+              0 6px 20px -12px rgba(11, 18, 32, 0.10);
+}
+:root.dark .card:hover {
+  border-color: #2b3546;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.20),
+              0 6px 24px -12px rgba(0,0,0,0.45);
+}
+
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+}
+.card-header h1, .card-header h2, .card-header h3 {
+  font-size: 14.5px;
+  font-weight: 650;
+  color: var(--text-primary);
+  letter-spacing: -0.005em;
+  margin: 0;
+}
+.card-body { padding: 18px 20px; }
+
+/* ============================================
+   KPI Card
+   ============================================ */
+/* KPI tile — enterprise metric card. Thin left accent bar, tight
+   padding, oversized numeric, no lift on hover. */
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px 16px 20px;
+  box-shadow: 0 1px 2px rgba(11, 18, 32, 0.03);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 0;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  transition: background 0.15s ease;
+}
+.kpi-card:hover {
+  border-color: #cbd3e1;
+  box-shadow: 0 1px 2px rgba(11, 18, 32, 0.04),
+              0 4px 14px -8px rgba(11, 18, 32, 0.12);
+}
+:root.dark .kpi-card:hover {
+  border-color: #2b3546;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.20), 0 4px 14px -8px rgba(0,0,0,0.40);
+}
+.kpi-card > div:last-child {
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.kpi-card.blue::before { background: var(--primary-light); }
+.kpi-card.green::before { background: var(--accent-green); }
+.kpi-card.red::before { background: var(--accent-red); }
+.kpi-card.orange::before { background: var(--accent-orange); }
+.kpi-card.purple::before { background: var(--accent-purple); }
+.kpi-card.cyan::before { background: var(--accent-cyan); }
+
+/* ============================================
+   Status Badges
+   ============================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.badge-operational {
+  background: var(--accent-green-light);
+  color: var(--accent-green);
+}
+
+.badge-broken {
+  background: var(--accent-red-light);
+  color: var(--accent-red);
+}
+
+.badge-maintenance {
+  background: var(--accent-orange-light);
+  color: var(--accent-orange);
+}
+
+.badge-stopped {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+:root.dark .badge-stopped {
+  background: rgba(100, 116, 139, 0.12);
+}
+
+.badge-critical {
+  background: var(--accent-red-light);
+  color: var(--accent-red);
+}
+
+.badge-medium {
+  background: var(--accent-orange-light);
+  color: var(--accent-orange);
+}
+
+.badge-low {
+  background: var(--accent-green-light);
+  color: var(--accent-green);
+}
+
+/* ============================================
+   Table
+   ============================================ */
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.data-table th {
+  background: linear-gradient(180deg, var(--surface-hover), var(--surface-hover));
+  padding: 11px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.045em;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.data-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.data-table tbody tr {
+  transition: background 0.12s ease;
+}
+.data-table tbody tr:hover { background: var(--surface-hover); }
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+/* Row density variants */
+.data-table.dense th, .data-table.dense td { padding: 8px 12px; font-size: 12.5px; }
+
+/* ============================================
+   Buttons
+   ============================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  font-family: inherit;
+  line-height: 1.35;
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 1px 0 rgba(11, 18, 32, 0.08), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.btn-primary:hover { background: var(--primary-light); }
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover {
+  background: var(--surface-hover);
+  border-color: #cbd3e1;
+}
+
+.btn-danger {
+  background: #b91c1c;
+  color: #fff;
+  box-shadow: 0 1px 0 rgba(11, 18, 32, 0.08);
+}
+.btn-danger:hover { background: #dc2626; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+.btn-ghost:hover { background: var(--surface-hover); color: var(--text-primary); }
+
+.btn-sm { padding: 6px 12px; font-size: 12.5px; gap: 5px; }
+.btn-lg { padding: 12px 20px; font-size: 15px; }
+
+/* ============================================
+   Input / Select
+   ============================================ */
+.input, .select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  color: var(--text-primary);
+  background: var(--surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+  font-family: inherit;
+  line-height: 1.4;
+}
+.input:focus, .select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(11, 58, 134, 0.14);
+}
+:root.dark .input:focus, :root.dark .select:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(87, 134, 214, 0.18);
+}
+.input::placeholder, .select::placeholder { color: var(--text-muted); }
+
+.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+/* ============================================
+   Page Layout
+   ============================================ */
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* ============================================
+   Scrollbar
+   ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 100px;
+}
+
+:root.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+:root.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* ============================================
+   Grid helpers
+   ============================================ */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .kpi-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   Modal
+   ============================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.2s ease-out;
+}
+
+:root.dark .modal-overlay {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  width: 90%;
+  max-width: 640px;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease-out;
+}
+
+:root.dark .modal-content {
+  border: 1px solid var(--border);
+}
+
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* ============================================
+   Empty state
+   ============================================ */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+
+.empty-state svg {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+/* ============================================
+   Scanner Animations
+   ============================================ */
+@keyframes scanLineMove {
+  0%, 100% { top: 10%; }
+  50% { top: 85%; }
+}
+
+@keyframes cornerPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes laserGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(249, 115, 22, 0.4), 0 0 20px rgba(249, 115, 22, 0.2); }
+  50% { box-shadow: 0 0 16px rgba(249, 115, 22, 0.8), 0 0 40px rgba(249, 115, 22, 0.4); }
+}
+
+/* ============================================
+   Bottom Sheet
+   ============================================ */
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(100%); opacity: 0; }
+}
+
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 150;
+  background: var(--surface);
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ============================================
+   Toast slide-in
+   ============================================ */
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateX(60px) scale(0.95); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+/* ============================================
+   Progress bar shimmer
+   ============================================ */
+@keyframes progressShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.reliability-bar {
+  height: 10px;
+  border-radius: 100px;
+  background: var(--border-light);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ============================================
+   Print / PDF export
+   - Hides chrome (sidebar, top bar, buttons)
+   - .print-only blocks appear only on paper
+   ============================================ */
+.print-only { display: none; }
+
+@media print {
+  /* ─── CSS variables override — the ONE cheap fix that makes every
+     var(--text-*) / var(--surface*) reference switch to a print-friendly
+     palette without touching individual components. Solves the "invisible
+     text in dark mode → PDF" bug the admin flagged. ─── */
+  :root, :root[data-theme="dark"], :root.dark {
+    --background: #ffffff !important;
+    --surface: #ffffff !important;
+    --surface-hover: #f8fafc !important;
+    --surface-active: #f1f5f9 !important;
+    --text-primary: #0f172a !important;
+    --text-secondary: #334155 !important;
+    --text-muted: #64748b !important;
+    --border: #cbd5e1 !important;
+    --border-light: #e2e8f0 !important;
+    --primary: #1e40af !important;
+    --primary-lighter: #eff6ff !important;
+    --primary-light: #bfdbfe !important;
+    --accent-red: #dc2626 !important;
+    --accent-red-light: #fee2e2 !important;
+  }
+
+  /* ─── Global print reset — applies to every page in the app ─── */
+  aside, header { display: none !important; }
+  html, body { background: #fff !important; color: #0f172a !important; }
+  /* Layout: no side-bar in print → main starts at page edge, spans full page.
+     Without this, the leftover margin from the flex sidebar shifts content
+     off to the right and produces the blank left half seen in the print
+     preview. */
+  body > div, #__next {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  main {
+    padding: 8px 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  .no-print, button:not(.print-keep), .toast, [class*="floating"], [class*="fab"] { display: none !important; }
+  .print-only { display: block !important; }
+  body, * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  @page { margin: 12mm; size: A4; }
+
+  /* Cards: clean borders, no shadow, never split across page break */
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #d4d4d8 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 10px !important;
+    background: #fff !important;
+  }
+
+  /* THE main print fix: every grid in the app stacks to one column on
+     paper so cards never overlap. This kills the "two cards side-by-side
+     bleeding into each other" problem the user reported across every
+     Imprimer flow. */
+  [style*="display: grid"],
+  [style*="display:grid"],
+  .chart-grid,
+  .kpi-grid {
+    display: block !important;
+  }
+  [style*="display: grid"] > *,
+  [style*="display:grid"] > *,
+  .chart-grid > *,
+  .kpi-grid > * {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* Restore 4-up KPI tiles on the machine sheet — too narrow stacked */
+  .kpi-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 8px !important;
+  }
+  .kpi-grid > * { margin-bottom: 0 !important; }
+  .kpi-card {
+    padding: 10px 12px !important;
+    border: 1px solid #d4d4d8 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+  }
+  .kpi-card > div:last-child { font-size: 18px !important; }
+
+  /* Charts print fix. Two things fight each other:
+     (a) ResponsiveContainer needs an explicit parent size or it collapses
+         to 0 × 0 → blank card on the PDF.
+     (b) Legend chip SVGs ALSO carry class="recharts-surface" (Recharts
+         re-uses the class on both the main canvas AND the tiny 14×14 swatch
+         icons in the default legend). A rule like
+             .recharts-surface { height: 260px }
+         stretches the legend chips to 260 px → gigantic red / blue blocks.
+     Fix: size ONLY the .recharts-surface that is a DIRECT CHILD of
+     .recharts-wrapper (that's the main canvas). Legend chips live deeper
+     inside .recharts-legend-wrapper → not matched. */
+  .card-body { padding: 14px 16px !important; }
+  .recharts-responsive-container {
+    width: 100% !important;
+    height: 260px !important;
+    min-height: 260px !important;
+    max-height: 260px !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    position: relative !important;
+  }
+  .recharts-wrapper {
+    width: 100% !important;
+    height: 260px !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    position: relative !important;
+  }
+  /* MAIN canvas only — direct child of the wrapper. */
+  .recharts-wrapper > .recharts-surface {
+    width: 100% !important;
+    height: 260px !important;
+    max-width: 100% !important;
+    display: block !important;
+  }
+  /* Explicitly pin legend chip SVGs at 14×14 as an insurance policy.
+     They already carry width="14" height="14" from Recharts, but if any
+     other rule tries to enlarge them we override. */
+  .recharts-legend-wrapper .recharts-surface,
+  .recharts-legend-item .recharts-surface,
+  .recharts-legend-item svg,
+  .recharts-legend-icon {
+    width: 14px !important;
+    height: 14px !important;
+    max-width: 14px !important;
+    max-height: 14px !important;
+    min-width: 14px !important;
+    min-height: 14px !important;
+  }
+  /* Cap any stray inline svg to viewport width only (no height touch). */
+  svg { max-width: 100% !important; }
+
+  /* Tables: kill horizontal overflow that cuts off the right-hand columns
+     (Prévisions, FMD par machine, Registre étalonnage). Force layout to
+     shrink columns to fit the page. */
+  .table-container,
+  [class*="TableWrapper"],
+  [style*="overflow-x"] {
+    overflow-x: visible !important;
+    overflow: visible !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  table, .data-table {
+    width: 100% !important;
+    table-layout: auto !important;
+    max-width: 100% !important;
+  }
+  .data-table td, .data-table th {
+    word-break: break-word !important;
+    white-space: normal !important;
+    overflow: visible !important;
+  }
+  /* Colored status badges (conforme / à corriger / élevé / faible) —
+     restore their pastel backgrounds so they survive the palette reset
+     above. The background-color is set via inline style, so we must
+     allow it (print-color-adjust already exact). */
+  [style*="background:#f0fdf4"], [style*="background: #f0fdf4"],
+  [style*="background:#fef2f2"], [style*="background: #fef2f2"],
+  [style*="background:#fffbeb"], [style*="background: #fffbeb"],
+  [style*="background:#eff6ff"], [style*="background: #eff6ff"] {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide floating chrome (notifications, cursor bubble, toasts, tutorial
+     cursor) that would leak into the PDF as a purple / red blob. */
+  [class*="Toast"], [class*="Notification"], [id*="tutorial"],
+  [data-tutorial-mock], [role="status"] { display: none !important; }
+
+  /* Tables: keep them readable, prevent row splitting */
+  .data-table { font-size: 11px !important; }
+  .data-table th, .data-table td { padding: 6px 8px !important; }
+  .data-table thead { background: #f1f5f9 !important; }
+  .data-table tr { page-break-inside: avoid !important; }
+
+  /* Flex containers: wrap instead of overflowing the page */
+  [style*="display: flex"][style*="gap"] { flex-wrap: wrap !important; }
+
+  /* Section spacing — give breathing room between report sections */
+  h1, h2, h3 { page-break-after: avoid !important; }
+  section { page-break-inside: auto !important; }
+
+  /* Hide tooltips/floating modals that shouldn't print */
+  [role="tooltip"], [class*="tooltip"], [class*="popover"], [class*="dropdown"] { display: none !important; }
+
+  /* ── Machine sheet (Imprimer la fiche) — specific override since it's
+     the most-printed page. Forces info+QR side-by-side and the info grid
+     to a clean single column. ── */
+  .machine-top-row {
+    display: grid !important;
+    grid-template-columns: 1fr 200px !important;
+    gap: 16px !important;
+  }
+  .machine-top-row > * { margin-bottom: 0 !important; }
+  .machine-info-card { padding: 18px !important; }
+  .machine-info-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 6px 12px !important;
+    font-size: 12.5px !important;
+  }
+  .machine-info-grid > div {
+    border-bottom: 1px dotted #e2e8f0;
+    padding-bottom: 4px;
+    margin-bottom: 0 !important;
+  }
+}
+
+.reliability-bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.reliability-bar-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: progressShimmer 2s infinite;
+}
+
+/* ============================================
+   Kanban card urgency borders
+   ============================================ */
+.kanban-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.kanban-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  border-radius: 4px 0 0 4px;
+}
+
+.kanban-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.kanban-card.urgency-critical::before { background: #ef4444; }
+.kanban-card.urgency-high::before { background: #f59e0b; }
+.kanban-card.urgency-normal::before { background: #3b82f6; }
+
+/* ============================================
+   RTL support
+   ============================================ */
+[dir="rtl"] .data-table th {
+  text-align: right;
+}
+
+[dir="rtl"] .select {
+  background-position: left 12px center;
+  padding-left: 36px;
+  padding-right: 14px;
+}
+
+/* ============================================
+   Camera capture flash
+   ============================================ */
+@keyframes captureFlash {
+  0% { background: rgba(255,255,255,0); }
+  30% { background: rgba(255,255,255,0.8); }
+  100% { background: rgba(255,255,255,0); }
+}
+
+.capture-flash {
+  animation: captureFlash 0.5s ease-out forwards;
+}
+
+/* ============================================
+   Scale bounce for media preview
+   ============================================ */
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.media-preview {
+  animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ============================================
+   Scanner success flash
+   ============================================ */
+@keyframes scannerSuccess {
+  0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); }
+  100% { box-shadow: 0 0 0 30px rgba(34,197,94,0); }
+}
+
+.scanner-success-pulse {
+  animation: scannerSuccess 0.6s ease-out;
+}
+
+/* ============================================
+   UNIVERSAL PAGE POLISH — catches inline-styled elements
+   Applied broadly so pages that don't use utility classes still
+   inherit the new visual language (typography, spacing, radius).
+   ============================================ */
+
+/* Typography baseline */
+main {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+main h1 { font-size: 20px; font-weight: 650; letter-spacing: -0.015em; }
+main h2 { font-size: 17px; font-weight: 650; letter-spacing: -0.01em; }
+main h3 { font-size: 15px; font-weight: 650; letter-spacing: -0.005em; }
+main h4 { font-size: 13.5px; font-weight: 600; letter-spacing: 0; }
+
+/* Inline-styled buttons: soften common gradient patterns to their solid
+   enterprise counterpart. Covers every "bright blue" / "green" / "red" /
+   "orange" / "purple" gradient sprinkled through 30+ page files. */
+main button[style*="linear-gradient(135deg, #3b82f6"],
+main button[style*="linear-gradient(135deg,#3b82f6"],
+main button[style*="linear-gradient(135deg, #1e40af"],
+main button[style*="linear-gradient(135deg,#1e40af"] {
+  background: var(--primary) !important;
+  box-shadow: 0 1px 0 rgba(11,18,32,0.08) !important;
+}
+main button[style*="linear-gradient(135deg, #22c55e"],
+main button[style*="linear-gradient(135deg,#22c55e"],
+main button[style*="linear-gradient(135deg, #16a34a"],
+main button[style*="linear-gradient(135deg,#16a34a"],
+main button[style*="linear-gradient(135deg, #10b981"],
+main button[style*="linear-gradient(135deg,#10b981"] {
+  background: #0e7c3f !important;
+  box-shadow: 0 1px 0 rgba(11,18,32,0.08) !important;
+}
+main button[style*="linear-gradient(135deg, #ef4444"],
+main button[style*="linear-gradient(135deg,#ef4444"],
+main button[style*="linear-gradient(135deg, #dc2626"],
+main button[style*="linear-gradient(135deg,#dc2626"] {
+  background: #b91c1c !important;
+  box-shadow: 0 1px 0 rgba(11,18,32,0.08) !important;
+}
+main button[style*="linear-gradient(135deg, #f97316"],
+main button[style*="linear-gradient(135deg,#f97316"],
+main button[style*="linear-gradient(135deg, #ea580c"],
+main button[style*="linear-gradient(135deg,#ea580c"],
+main button[style*="linear-gradient(135deg, #c2410c"],
+main button[style*="linear-gradient(135deg,#c2410c"] {
+  background: #b45309 !important;
+  box-shadow: 0 1px 0 rgba(11,18,32,0.08) !important;
+}
+main button[style*="linear-gradient(135deg, #8b5cf6"],
+main button[style*="linear-gradient(135deg,#8b5cf6"],
+main button[style*="linear-gradient(135deg, #6d28d9"],
+main button[style*="linear-gradient(135deg,#6d28d9"] {
+  background: #5b21b6 !important;
+  box-shadow: 0 1px 0 rgba(11,18,32,0.08) !important;
+}
+main button[style*="linear-gradient(135deg, #06b6d4"],
+main button[style*="linear-gradient(135deg,#06b6d4"] {
+  background: #0891b2 !important;
+  box-shadow: 0 1px 0 rgba(11,18,32,0.08) !important;
+}
+
+/* Empty state pattern — many pages ship "no data" divs with an
+   inline dashed border and a centered icon + label. Give them
+   consistent, refined typography site-wide. */
+main div[style*="border: '1px dashed"] {
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-hover) 100%) !important;
+  border-color: var(--border) !important;
+  border-radius: 12px !important;
+  padding: 44px 24px !important;
+  color: var(--text-secondary) !important;
+}
+main div[style*="border: '1px dashed"] svg {
+  color: var(--text-muted);
+  opacity: 0.55;
+}
+main div[style*="border: '1px dashed"] p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+/* Section eyebrow — the small uppercase label pattern used across pages */
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Non-button elements (div/a) with the same gradients get calmed too */
+main a[style*="linear-gradient(135deg, #3b82f6"],
+main a[style*="linear-gradient(135deg,#3b82f6"],
+main div[style*="linear-gradient(135deg, #3b82f6"],
+main div[style*="linear-gradient(135deg,#3b82f6"] {
+  background: var(--primary) !important;
+}
+
+/* Radius normalization on inline-styled cards */
+main div[style*="borderRadius: 20"],
+main div[style*="borderRadius:20"] { border-radius: 12px !important; }
+main div[style*="borderRadius: 24"],
+main div[style*="borderRadius:24"] { border-radius: 14px !important; }
+main div[style*="borderRadius: 28"],
+main div[style*="borderRadius:28"] { border-radius: 16px !important; }
+
+/* Shadow purge — box-shadow values with rgba colored halos are the
+   AI-tell. Reduce them to a subtle enterprise shadow. */
+main button[style*="0 4px 12px rgba(59,130,246"],
+main button[style*="0 4px 12px rgba(59, 130, 246"],
+main button[style*="0 8px 24px rgba(59,130,246"],
+main button[style*="0 8px 24px rgba(59, 130, 246"] {
+  box-shadow: 0 1px 2px rgba(11,18,32,0.08) !important;
+}
+main a[style*="0 8px 24px rgba"] { box-shadow: 0 1px 2px rgba(11,18,32,0.08) !important; }
+
+/* All main-scoped links inherit weight — no default blue underline */
+main a { color: var(--primary); text-decoration: none; transition: color 0.12s ease; }
+main a:hover { color: var(--primary-dark); }
+
+/* Divider */
+main hr {
+  border: none;
+  height: 1px;
+  background: var(--border-light);
+  margin: 16px 0;
+}
+
+/* ============================================
+   DESIGN POLISH — global refinements
+   Adds subtle depth, smoother transitions, cleaner focus rings.
+   Non-breaking: overrides existing patterns without removing anything.
+   ============================================ */
+
+/* Buttons: everywhere gets a softer active feedback and focus ring */
+button:not(:disabled) {
+  transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.15s ease,
+              background 0.15s ease,
+              color 0.15s ease,
+              filter 0.15s ease;
+}
+button:not(:disabled):hover { filter: brightness(1.04); }
+button:not(:disabled):active { transform: translateY(1px); }
+button:focus-visible {
+  outline: 2px solid var(--primary-light);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Inputs: fluid focus ring matching the primary accent */
+.input:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+  border-color: var(--primary-light) !important;
+}
+
+/* Card hover — subtle lift */
+.card {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+/* KPI cards get a smooth entrance on page load */
+@keyframes kpiFadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.kpi-card {
+  animation: kpiFadeUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.kpi-card:nth-child(1) { animation-delay: 0.02s; }
+.kpi-card:nth-child(2) { animation-delay: 0.06s; }
+.kpi-card:nth-child(3) { animation-delay: 0.10s; }
+.kpi-card:nth-child(4) { animation-delay: 0.14s; }
+
+/* Scrollbar polish (WebKit + Firefox) */
+* { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 100px;
+  transition: background 0.2s ease;
+}
+*::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* Toast — nicer stack + spring-in */
+@keyframes toastSpring {
+  0% { opacity: 0; transform: translateY(-12px) scale(0.94); }
+  60% { opacity: 1; transform: translateY(2px) scale(1.02); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+/* Modal + slide-over: enter with ease-out cubic */
+[role="dialog"] { animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important; }
+
+/* ============================================
+   MOBILE — full responsiveness for phones (<= 640px)
+   Every complaint about "the mobile version sucks" traces back to
+   one of the rules below. This is the single source of mobile truth.
+   ============================================ */
+
+/* Kill horizontal scroll everywhere on mobile */
+@media (max-width: 900px) {
+  html, body { overflow-x: hidden; }
+}
+
+@media (max-width: 640px) {
+  /* Main content padding drops so we don't waste screen edges */
+  main {
+    padding: 14px 12px !important;
+  }
+
+  /* KPI grids collapse to 2-up (or 1-up on very small phones) */
+  [style*="grid-template-columns: repeat(4"],
+  [style*="grid-template-columns: repeat(3"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  @media (max-width: 380px) {
+    [style*="grid-template-columns: repeat(4"],
+    [style*="grid-template-columns: repeat(3"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  /* Text sizes settle down on small screens */
+  h1 { font-size: 20px !important; }
+  h2 { font-size: 17px !important; }
+  h3 { font-size: 15px !important; }
+
+  /* Cards get less padding + full-width */
+  .card { padding: 14px !important; }
+
+  /* Tables inside containers become horizontally scrollable */
+  .table-container { overflow-x: auto !important; }
+  .data-table { min-width: 640px; }
+
+  /* Tabs bar — horizontal scroll instead of wrap */
+  [data-tour*="tabs"],
+  [data-tour="proc-tabs"] {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+  [data-tour*="tabs"] button,
+  [data-tour="proc-tabs"] button {
+    scroll-snap-align: start;
+    white-space: nowrap;
+  }
+
+  /* Toolbars: search + buttons stack on phones */
+  [style*="justify-content: space-between"][style*="flex-wrap: wrap"] {
+    gap: 10px !important;
+  }
+
+  /* Modals / slide-overs cover the full screen */
+  [role="dialog"][class*="modal"],
+  [role="dialog"] > div:first-child {
+    max-width: 100vw !important;
+    width: 100% !important;
+    border-radius: 12px 12px 0 0 !important;
+    min-height: auto !important;
+  }
+
+  /* STICKY ACTION FOOTER — used by scanner + form modals so buttons
+     don't require scrolling. Wrap your action bar in .mobile-sticky-actions */
+  .mobile-sticky-actions {
+    position: sticky;
+    bottom: 0;
+    background: var(--surface);
+    padding: 12px 14px;
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.08);
+    z-index: 20;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .mobile-sticky-actions > button { flex: 1 1 auto; min-width: 130px; }
+
+  /* Scanner page — QR reader + captured code row are stacked with a
+     sticky "OK" so it's always visible without scrolling. */
+  [data-tour="scan-start"] ~ * .scan-captured-actions,
+  .scan-captured-actions {
+    position: sticky;
+    bottom: 0;
+    background: var(--surface);
+    padding: 10px 12px;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.12);
+    z-index: 30;
+    display: flex;
+    gap: 8px;
+  }
+  .scan-captured-actions > button { flex: 1; min-height: 46px; font-weight: 700; }
+
+  /* Modal footers gain the sticky treatment automatically */
+  [role="dialog"] [class*="footer"],
+  [role="dialog"] > div > div:last-child {
+    position: sticky;
+    bottom: 0;
+    background: var(--surface);
+    padding: 12px 14px;
+    box-shadow: 0 -6px 16px rgba(0, 0, 0, 0.08);
+    z-index: 20;
+  }
+
+  /* Sidebar becomes a fixed overlay on mobile — the mobile hamburger
+     toggles a class we don't own here, but at least visible sidebars
+     don't consume the whole width. */
+  aside {
+    max-width: 84vw !important;
+  }
+
+  /* Toasts float wider so text isn't cropped */
+  [class*="Toast"], [role="status"] {
+    max-width: calc(100vw - 24px) !important;
+    left: 12px !important;
+    right: 12px !important;
+  }
+
+  /* Prevent the reports print-preview from stretching off-screen */
+  #reports-print-root {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Buttons on cards or in dense rows — bigger tap targets */
+  button {
+    min-height: 40px;
+  }
+  button[title]:where(:not(.no-min)) {
+    min-width: 40px;
+  }
+}
+
+/* Tablet-only rules — softer refinements for 641–1024px */
+@media (max-width: 1024px) and (min-width: 641px) {
+  main { padding: 18px 20px !important; }
+  [style*="grid-template-columns: repeat(4"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ============================================
+   MOBILE HARDENING — iOS Safari / Android Chrome fixes.
+   Directly addresses "the mobile app version doesn't fit the phone".
+   ============================================ */
+
+@media (max-width: 900px) {
+  /* Prevent iOS Safari auto-zoom on <input> focus. Requires 16 px min. */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+
+  /* Momentum scrolling for touch on all scroll containers */
+  .table-container,
+  [style*="overflow-x"],
+  [style*="overflow: auto"],
+  [style*="overflow-y: auto"] {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* iOS: kill the grey tap flash */
+  * { -webkit-tap-highlight-color: transparent; }
+
+  /* iOS notch — respect safe area on the mobile top bar and sticky footers */
+  .mobile-topbar {
+    padding-top: calc(10px + env(safe-area-inset-top, 0px)) !important;
+    padding-left: calc(14px + env(safe-area-inset-left, 0px)) !important;
+    padding-right: calc(14px + env(safe-area-inset-right, 0px)) !important;
+  }
+  .mobile-sticky-actions,
+  .scan-captured-actions,
+  [role="dialog"] > div > div:last-child {
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* Prevent the whole page from horizontal-scrolling if any child has a
+     wide inline style. Belt + suspenders — we already have overflow-x
+     hidden on html/body at <900px. */
+  main, .app-content { max-width: 100vw; overflow-x: hidden; }
+}
+
+/* Small phones (<= 380px) — force single-column layouts and tighten
+   header typography so nothing gets cut off. */
+@media (max-width: 380px) {
+  main { padding: 12px 10px !important; }
+  h1 { font-size: 18px !important; }
+  h2 { font-size: 15.5px !important; }
+  .card-header { padding: 12px 14px !important; }
+  .card-body { padding: 14px !important; }
+
+  /* Any 2-col-on-mobile KPI grid collapses to 1-col */
+  [style*="grid-template-columns: repeat(2"] { grid-template-columns: 1fr !important; }
+
+  /* Modal panels take the full viewport on very small phones */
+  [role="dialog"] > div:first-child,
+  [role="dialog"] > div {
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+  }
+
+  /* Sidebar drawer takes 88 vw so users can still see the backdrop
+     to tap it and dismiss */
+  aside { max-width: 88vw !important; }
+}
+
+/* ============================================
+   PC DISPLAY HARDENING — desktop & ultra-wide screens.
+   Prevents content from stretching to 3 metres of whitespace on
+   4K / 34" ultrawide monitors while keeping full-width tables usable.
+   ============================================ */
+
+/* On any screen wider than a 15" laptop, cap the app content column
+   so lines-of-text stay ergonomic (~90 ch max) but let full-bleed
+   grids (dashboard, reports, synoptique) still spread out. */
+@media (min-width: 1600px) {
+  main {
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* Except for the truly full-bleed screens — they OPT OUT via a class. */
+  main.full-bleed { max-width: none; }
+}
+
+/* On 4K+ monitors, prevent 6-column KPI grids from becoming a strip */
+@media (min-width: 2200px) {
+  [style*="grid-template-columns: repeat(auto-fill, minmax(340px"],
+  [style*="grid-template-columns: repeat(auto-fill, minmax(360px"] {
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)) !important;
+  }
+}
+
+/* Print-only touch-up (belt on top of the earlier @media print block) */
+@media print {
+  .mobile-topbar, .mobile-backdrop { display: none !important; }
+}
+
+/* ============================================
+   Recharts overrides
+   ============================================ */
+.recharts-default-tooltip {
+  border-radius: var(--radius-md) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+:root.dark .recharts-default-tooltip {
+  background: var(--surface) !important;
+  color: var(--text-primary) !important;
+}
+
+/* ============================================
+   Circular Progress Ring
+   ============================================ */
+.progress-ring-circle {
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+/* ============================================
+   Responsive — phones & tablets
+   ============================================ */
+.mobile-topbar { display: none; }
+.mobile-backdrop { display: none; }
+
+@media (max-width: 860px) {
+  /* Content spans the full width — the sidebar becomes a drawer */
+  .app-content { margin-left: 0 !important; margin-right: 0 !important; }
+
+  /* Off-canvas sidebar; slides in when opened.
+     LTR drawer hides to the left, RTL drawer hides to the right.
+     Narrower drawer (240px) so it doesn't eat all the screen on small phones. */
+  .app-sidebar {
+    transform: translateX(-100%);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+    width: 240px !important;
+  }
+  [dir="rtl"] .app-sidebar {
+    transform: translateX(100%);
+  }
+  .app-sidebar.app-sidebar--open { transform: translateX(0) !important; }
+
+  /* Mobile top bar with the hamburger */
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    padding: 10px 14px;
+    background: var(--sidebar-bg);
+    color: #fff;
+    /* Respect iOS notch — keeps the bar fully visible */
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
+  }
+
+  /* Dim backdrop behind the open drawer */
+  .mobile-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 49;
+  }
+
+  /* Tighter page padding on small screens + reserve space for fixed elements */
+  main {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    /* Bottom padding so floating banners + iOS home-bar don't cover content */
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* Stack any two-column dashboards into one column */
+  .chart-grid { grid-template-columns: 1fr !important; }
+
+  /* ── Phone-friendly typography + touch targets ── */
+  /* Inputs and selects need to be >= 16px to prevent iOS auto-zoom on focus */
+  input, select, textarea, .input {
+    font-size: 16px !important;
+    min-height: 44px;
+  }
+  /* Buttons feel small on touch — bump min height */
+  button { min-height: 40px; }
+
+  /* Compact page header — saves vertical space */
+  header h1 { font-size: 17px !important; line-height: 1.2; }
+  header p { font-size: 12px !important; margin-top: 1px !important; }
+  header { padding: 10px 14px !important; gap: 8px !important; }
+  /* Subtitle truncates rather than wraps so the header stays one line tall */
+  header p {
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    max-width: 60vw;
+  }
+
+  /* Tables: allow horizontal scroll instead of breaking layout */
+  .table-container, .data-table { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .data-table { font-size: 13px; }
+  .data-table th, .data-table td { padding: 8px 10px !important; white-space: nowrap; }
+
+  /* KPI cards 1-up at very narrow widths */
+  .kpi-grid { grid-template-columns: 1fr !important; gap: 12px; }
+  .kpi-card { padding: 14px !important; }
+
+  /* Modals full-comfort on small screens — cap height + internal scroll */
+  [data-tour="modal-overlay"] { padding: 12px !important; }
+  [data-tour="modal-panel"] {
+    max-width: calc(100vw - 24px) !important;
+    max-height: calc(100vh - 24px) !important;
+  }
+  [data-tour="modal-body"] {
+    padding: 16px 18px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  [data-tour="modal-header"], [data-tour="modal-footer"] {
+    padding: 14px 18px !important;
+  }
+
+  /* SlideOver panels also shrink */
+  .app-sidebar + div + div [style*="transform: translateX"],
+  div[role="dialog"] { max-width: calc(100vw - 16px) !important; }
+
+  /* Card padding tightens (room is precious on phones) */
+  .card { padding: 14px !important; }
+
+  /* Sidebar groups + items: avoid hover-only behavior — make popovers
+     auto-open below the group button when toggled on touch. */
+  .app-sidebar button { min-height: 44px; }
+
+  /* Cards that use display:flex with too many items wrap nicely */
+  main .card,
+  main > div > div { max-width: 100%; }
+
+  /* Prevent any horizontal page scroll caused by stray wide elements */
+  body, html, main, .app-content { max-width: 100vw; overflow-x: hidden; }
+}
+
+/* Extra-narrow phones */
+@media (max-width: 480px) {
+  main { padding-left: 10px !important; padding-right: 10px !important; }
+  .data-table { font-size: 12px; }
+  .data-table th, .data-table td { padding: 6px 8px !important; }
+
+  /* Header controls: hide the zoom widget on phones — saves ~120 px and the
+     browser already lets the user pinch-zoom natively. */
+  header [title*="Zoom"] { display: none !important; }
+  /* Tighter header gap on extra-narrow */
+  header { padding: 10px 12px !important; gap: 6px !important; }
+  /* Make page title smaller on very narrow */
+  header h1 { font-size: 16px !important; }
+}

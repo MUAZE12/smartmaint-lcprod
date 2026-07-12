@@ -1,0 +1,4 @@
+10/07/2026 23:31:08
+System.IO.IOException: Access to the path 'C:\Users\elitebook\OneDrive\Bureau\projet gmao\SmartMaint - L.C PROD\.update-tmp\.next' is denied.
+   at System.IO.Directory.InternalMove(String sourceDirName, String destDirName, Boolean checkHost)
+   at SmartMaintLauncher.ApplyUpdate(String appDir, String channel, String remoteVer)
