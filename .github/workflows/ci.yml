@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: ESLint (non-blocking — TODO: clean up pre-existing warnings)
+      - name: ESLint (non-blocking; pre-existing warnings TODO)
         run: npm run lint
         continue-on-error: true
 
