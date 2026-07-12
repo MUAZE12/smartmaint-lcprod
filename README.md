@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/YOUR_USERNAME/smartmaint-lcprod/ci.yml?branch=main&label=CI&style=flat-square">
+  <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/MUAZE12/smartmaint-lcprod/ci.yml?branch=main&label=CI&style=flat-square">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-strict-3178c6?style=flat-square&logo=typescript&logoColor=white">
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16-000?style=flat-square&logo=nextdotjs">
   <img alt="React" src="https://img.shields.io/badge/React-19-61dafb?style=flat-square&logo=react">
@@ -91,7 +91,7 @@ Test credentials (read-only):
 
 ## 🎥 Video demo
 
-**[3-minute walkthrough on YouTube](https://youtu.be/YOUR_VIDEO_ID)**
+**[3-minute walkthrough on YouTube](https://youtu.be/#video-coming-soon)**
 
 Shows: login → admin dashboard → intervention with voice dictation → operator RTL kiosk → in-app auto-update.
 
@@ -243,7 +243,7 @@ We ship the 240 MB `whisper-small.fr` ONNX model inside the installer and run it
 ### 1. Clone + install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/smartmaint-lcprod.git
+git clone https://github.com/MUAZE12/smartmaint-lcprod.git
 cd smartmaint-lcprod
 npm install
 ```
@@ -363,12 +363,12 @@ Being honest about the gaps — these are the real things I'd fix if I started o
 
 ## 📄 License
 
-MIT © 2026 [Your Name](https://github.com/YOUR_USERNAME) — see [`LICENSE`](LICENSE) for details.
+MIT © 2026 [Your Name](https://github.com/MUAZE12) — see [`LICENSE`](LICENSE) for details.
 
 Built as a Master's / final-year engineering project to demonstrate industrial-software architecture, real-time systems, and Windows deployment at scale.
 
 ---
 
 <p align="center">
-  <sub>Questions? Feedback? Open an issue or DM me on <a href="https://linkedin.com/in/YOUR_LINKEDIN">LinkedIn</a>.</sub>
+  <sub>Questions? Feedback? Open an issue or DM me on <a href="https://linkedin.com/in/baroudi-mustapha">LinkedIn</a>.</sub>
 </p>

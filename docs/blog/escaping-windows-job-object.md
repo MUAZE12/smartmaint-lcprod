@@ -4,7 +4,7 @@
 
 > This post grew out of a real bug that blocked auto-update on **SmartMaint — L.C PROD**, an industrial GMAO/CMMS I ship as a Windows installer. If you're launching Node from a native wrapper on Windows and trying to survive the parent's death, this is for you.
 >
-> Repo: [github.com/YOUR_USERNAME/smartmaint-lcprod](https://github.com/YOUR_USERNAME/smartmaint-lcprod)
+> Repo: [github.com/MUAZE12/smartmaint-lcprod](https://github.com/MUAZE12/smartmaint-lcprod)
 
 ---
 
@@ -194,7 +194,7 @@ The whole saga is in the git log under `src/app/api/apply-update/route.ts`. If y
 
 ---
 
-**About me**: I'm a full-stack engineer building industrial software. SmartMaint — L.C PROD is my full-year project — a GMAO/CMMS with real-time sync across 27 tables, offline French voice dictation, and a Windows installer with auto-update. Find me on [LinkedIn](https://linkedin.com/in/YOUR_LINKEDIN) or [GitHub](https://github.com/YOUR_USERNAME).
+**About me**: I'm a full-stack engineer building industrial software. SmartMaint — L.C PROD is my full-year project — a GMAO/CMMS with real-time sync across 27 tables, offline French voice dictation, and a Windows installer with auto-update. Find me on [LinkedIn](https://linkedin.com/in/baroudi-mustapha) or [GitHub](https://github.com/MUAZE12).
 
 ---
 

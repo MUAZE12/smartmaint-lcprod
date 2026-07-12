@@ -103,9 +103,9 @@ Each scene has a **time budget**, **what to show**, and **the exact narration** 
 ```
 SmartMaint — L.C PROD
 
-Repo:       github.com/YOUR_USERNAME/smartmaint-lcprod
+Repo:       github.com/MUAZE12/smartmaint-lcprod
 Live demo:  demo.smartmaint-lcprod.vercel.app
-LinkedIn:   linkedin.com/in/YOUR_LINKEDIN
+LinkedIn:   linkedin.com/in/baroudi-mustapha
 ```
 
 ---

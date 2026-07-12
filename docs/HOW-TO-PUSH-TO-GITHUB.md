@@ -103,10 +103,10 @@ Done. The CLI creates the repo on GitHub, adds it as a remote, and pushes. Skip 
 5. **DO NOT** check "Add a README", "Add .gitignore", or "Choose a license" — you already have those.
 6. Click **Create repository**.
 
-GitHub now shows you a page with a "…or push an existing repository" section. Copy the commands it shows (they include YOUR username), or use these — **replacing `YOUR_USERNAME`** with your real GitHub username:
+GitHub now shows you a page with a "…or push an existing repository" section. Copy the commands it shows (they include YOUR username), or use these — **replacing `MUAZE12`** with your real GitHub username:
 
 ```powershell
-git remote add origin https://github.com/YOUR_USERNAME/smartmaint-lcprod.git
+git remote add origin https://github.com/MUAZE12/smartmaint-lcprod.git
 git push -u origin main
 ```
 
@@ -134,11 +134,11 @@ Same panel:
 
 ### 5.3 Replace the placeholders in files
 
-Search-and-replace `YOUR_USERNAME` and `YOUR_LINKEDIN` across the repo before the first release:
+Search-and-replace `MUAZE12` and `baroudi-mustapha` across the repo before the first release:
 
 ```powershell
 # Find every file mentioning the placeholders
-git grep -l "YOUR_USERNAME\|YOUR_LINKEDIN\|YOUR_VIDEO_ID"
+git grep -l "MUAZE12\|baroudi-mustapha\|video-coming-soon"
 ```
 
 Files to update:
@@ -207,7 +207,7 @@ Whichever you pick, once it's live, add the URL back into `README.md` (replace `
 
 Follow `docs/video/demo-script.md`. Recording time: ~30 min (allowing for retakes). Post-production: ~15 min. Total: **~1 hour**.
 
-Upload to YouTube as **Unlisted**. Paste the video ID into `README.md` where it says `YOUR_VIDEO_ID`.
+Upload to YouTube as **Unlisted**. Paste the video ID into `README.md` where it says `video-coming-soon`.
 
 ---
 
