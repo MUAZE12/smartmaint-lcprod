@@ -24,8 +24,9 @@ import {
     Maximize2, X, Download,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useShortcut } from '@/lib/shortcuts';
 import ConsumablesTracker from '@/components/industry40/ConsumablesTracker';
 import ShiftHandoverBoard from '@/components/industry40/ShiftHandoverBoard';
 
@@ -71,6 +72,18 @@ export default function DashboardPage() {
         setChartsReady(true);
     }, [dataReady]);
     const router = useRouter();
+    // Keyboard shortcuts registered for the lifetime of this page.
+    // Press `?` anywhere to see the cheatsheet.
+    useShortcut('n', useCallback(() => router.push('/interventions'), [router]),
+        { description: 'Nouvelle intervention', scope: 'admin' });
+    useShortcut('m', useCallback(() => router.push('/machines'), [router]),
+        { description: 'Voir les machines', scope: 'admin' });
+    useShortcut('p', useCallback(() => router.push('/spare-parts'), [router]),
+        { description: 'Voir les pieces de rechange', scope: 'admin' });
+    useShortcut('h', useCallback(() => router.push('/haccp'), [router]),
+        { description: 'HACCP', scope: 'admin' });
+    useShortcut('a', useCallback(() => router.push('/audit'), [router]),
+        { description: `Journal d'audit`, scope: 'admin' });
     const [atelier, setAtelier] = useState('all');
     const [monthsBack, setMonthsBack] = useState<6 | 12>(6);
     // Power-BI-style click-to-zoom: holds the id of the currently zoomed

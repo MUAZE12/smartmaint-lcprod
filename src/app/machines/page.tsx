@@ -12,6 +12,9 @@ import type { Machine, MachineType } from '@/lib/types';
 import {
     Plus, Search, Filter, Cpu, Edit, Trash2, Eye, MapPin, DollarSign, AlertTriangle, Zap, Ruler, FileText, Upload, Loader2,
 } from 'lucide-react';
+import { SkeletonCard } from '@/components/ui/Skeleton';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { useUndo } from '@/lib/undoManager';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useState, useMemo, useRef, useEffect } from 'react';
@@ -148,13 +151,22 @@ export default function MachinesPage() {
         }
     };
 
+    const { queueUndo } = useUndo();
     const handleDelete = async () => {
         if (!deleteTarget) return;
         setDeleting(true);
+        const before = deleteTarget;
         try {
-            await machinesDb.remove(deleteTarget.id);
+            await machinesDb.remove(before.id);
             showToast('Machine supprimée', 'error');
             setDeleteTarget(null);
+            // 8-second undo window — click "Rétablir" in the toast or press Ctrl+Z.
+            queueUndo({
+                description: `Machine ${before.code} supprimée`,
+                rollback: async () => {
+                    await machinesDb.create(before);
+                },
+            });
         } catch (err) {
             const msg = err instanceof Error ? err.message : 'Erreur lors de la suppression';
             showToast(msg, 'error');
@@ -220,16 +232,18 @@ export default function MachinesPage() {
 
                 {/* Empty / loading state */}
                 {loading && machineList.length === 0 && (
-                    <div style={{ textAlign: 'center', padding: 60, color: 'var(--text-muted)' }}>
-                        <Loader2 size={28} style={{ animation: 'spin 1s linear infinite' }} />
-                        <p style={{ marginTop: 12, fontSize: 14 }}>Chargement des machines…</p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 16 }}>
+                        {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} height={220} />)}
                     </div>
                 )}
                 {!loading && machineList.length === 0 && (
-                    <div style={{ textAlign: 'center', padding: 60, color: 'var(--text-muted)', border: '1px dashed var(--border)', borderRadius: 12 }}>
-                        <Cpu size={40} style={{ opacity: 0.4 }} />
-                        <p style={{ marginTop: 12, fontSize: 14 }}>Aucune machine. Cliquez sur « {t('machine.create')} » pour commencer.</p>
-                    </div>
+                    <EmptyState
+                        icon={Cpu}
+                        title="Aucune machine encore"
+                        description={`Ajoutez votre première machine pour commencer à suivre les KPI, les interventions et l'historique.`}
+                        action={<button onClick={openCreate} style={{ padding: '10px 16px', borderRadius: 10, border: 'none', background: '#3b82f6', color: 'white', fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'inherit' }}><Plus size={15}/> {t('machine.create')}</button>}
+                        tone="info"
+                    />
                 )}
 
                 {/* Cards Grid */}

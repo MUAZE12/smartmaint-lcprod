@@ -10,6 +10,7 @@ import { useDbNotifications } from '@/lib/useDbNotifications';
 import { technicians } from '@/lib/data';
 import Link from 'next/link';
 import UserProfile from '@/components/UserProfile';
+import OfflineIndicator from '@/components/OfflineIndicator';
 
 interface HeaderProps {
     title: string;
