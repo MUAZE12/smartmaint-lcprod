@@ -54,8 +54,10 @@ export async function getClassifier(): Promise<Classifier> {
     // where we don't want to bundle 400 KB of extra JS).
     let tf: unknown, mobilenet: unknown;
     try {
-        // Dynamic import; caller can install these on demand.
+        // Dynamic imports; optional peer deps that ship separately.
+        // @ts-expect-error - optional peer dep; may not be installed.
         tf = await import(/* webpackIgnore: true */ '@tensorflow/tfjs').catch(() => null);
+        // @ts-expect-error - optional peer dep; may not be installed.
         mobilenet = await import(/* webpackIgnore: true */ '@tensorflow-models/mobilenet').catch(() => null);
     } catch { /* ignore */ }
 

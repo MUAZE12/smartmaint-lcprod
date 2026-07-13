@@ -35,6 +35,7 @@ async function initIfConfigured(): Promise<void> {
     initPromise = (async () => {
         try {
             // Dynamic import — @sentry/browser stays out of the bundle when unused.
+            // @ts-expect-error - optional peer dep; may not be installed.
             const mod = await import(/* webpackIgnore: true */ '@sentry/browser').catch(() => null);
             if (!mod) return;
             const client = mod as unknown as SentryClient;
