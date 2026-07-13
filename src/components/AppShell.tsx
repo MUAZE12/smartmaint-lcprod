@@ -14,6 +14,9 @@ import { installOfflineQueueListener } from '@/lib/offlineQueue';
 import UpdateNotifier from './UpdateNotifier';
 import PWAManager from './PWAManager';
 import TutorialTour from './TutorialTour';
+import { KeyboardShortcutsProvider } from '@/lib/shortcuts';
+import { UndoProvider } from '@/lib/undoManager';
+import InstallPWAPrompt from './InstallPWAPrompt';
 
 // Spring-based page transition — futuristic sliding fade
 const pageVariants = {
@@ -116,28 +119,35 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     // banner can appear even before authentication.
     if (!isAuthenticated || isLoginPage) {
         return (
-            <>
-                <SplashScreen />
-                <PWAManager />
-                {children}
-            </>
+            <KeyboardShortcutsProvider>
+                <UndoProvider>
+                    <SplashScreen />
+                    <PWAManager />
+                    <InstallPWAPrompt />
+                    {children}
+                </UndoProvider>
+            </KeyboardShortcutsProvider>
         );
     }
 
     return (
-        <div style={{ display: 'flex' }}>
-            {/* Background email-alert + auto-reorder + weekly-digest watcher.
-                Admin-only so multiple open sessions can't fire duplicate emails. */}
-            {user?.role === 'admin' && <AlertWatcher />}
-            {/* In-app pop-ups gated by Paramètres → Notifications. Admin-only for now. */}
-            {user?.role === 'admin' && <NotifWatcher />}
-            {/* Polls the update channel and shows a banner when a newer build is published */}
-            <UpdateNotifier />
-            {/* PWA: service-worker registration + install banner + offline chip */}
-            <PWAManager />
-            {/* One-time guided tour per user — fires on first authenticated session */}
-            <TutorialTour />
-            <Sidebar mobileOpen={navOpen} onNavigate={() => setNavOpen(false)} />
+        <KeyboardShortcutsProvider>
+            <UndoProvider>
+                <div style={{ display: 'flex' }}>
+                    {/* Background email-alert + auto-reorder + weekly-digest watcher.
+                        Admin-only so multiple open sessions can't fire duplicate emails. */}
+                    {user?.role === 'admin' && <AlertWatcher />}
+                    {/* In-app pop-ups gated by Paramètres → Notifications. Admin-only for now. */}
+                    {user?.role === 'admin' && <NotifWatcher />}
+                    {/* Polls the update channel and shows a banner when a newer build is published */}
+                    <UpdateNotifier />
+                    {/* PWA: service-worker registration + install banner + offline chip */}
+                    <PWAManager />
+                    {/* Non-intrusive banner to install as PWA on tablet / phone. */}
+                    <InstallPWAPrompt />
+                    {/* One-time guided tour per user — fires on first authenticated session */}
+                    <TutorialTour />
+                    <Sidebar mobileOpen={navOpen} onNavigate={() => setNavOpen(false)} />
 
             {/* Backdrop — only visible on mobile while the drawer is open */}
             {navOpen && <div className="mobile-backdrop" onClick={() => setNavOpen(false)} />}
@@ -178,5 +188,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 </AnimatePresence>
             </div>
         </div>
+            </UndoProvider>
+        </KeyboardShortcutsProvider>
     );
 }

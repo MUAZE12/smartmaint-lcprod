@@ -3,37 +3,37 @@
 --
 -- Adds tenant_id (uuid) to every business table, backfills all
 -- existing rows to a default tenant, then RLS-scopes every table
--- so a user in tenant A cannot see tenant B's data.
+-- so a user in tenant A cannot see tenant B data.
 --
 -- MODEL
---   • tenants table                     — one row per company
---   • auth.users.raw_user_meta_data
---       tenant_id (uuid)                — user is bound to exactly one tenant
---   • Every business table gets tenant_id NOT NULL DEFAULT (from JWT)
---   • RLS policies compare row tenant_id to auth_tenant_id()
+--   - tenants table                     : one row per company
+--   - auth.users.raw_user_meta_data
+--       tenant_id (uuid)                : user is bound to one tenant
+--   - Every business table gets tenant_id NOT NULL DEFAULT (from JWT)
+--   - RLS policies compare row tenant_id to auth_tenant_id()
 --
 -- MIGRATION SAFE
---   • Runs in a single transaction
---   • Backfills using the DEFAULT_TENANT_ID constant below — replace
---     with your existing tenant's UUID if you already have data
---   • ADD COLUMN IF NOT EXISTS, CREATE POLICY IF NOT EXISTS —
+--   - Runs in a single transaction
+--   - Backfills using the DEFAULT_TENANT constant below - replace
+--     with your existing tenant UUID if you already have data
+--   - ADD COLUMN IF NOT EXISTS, CREATE POLICY IF NOT EXISTS -
 --     safe to re-run
 --
 -- ROLLBACK: policies revert to per-workshop or permissive by
 -- re-running per-workshop-rls.sql or rls-rollback-permissive.sql.
 -- To fully remove tenant_id, ALTER TABLE ... DROP COLUMN tenant_id
--- (destroys tenant separation — do only in dev).
+-- (destroys tenant separation - do only in dev).
 -- ============================================================
 
 BEGIN;
 
--- ── Tenants directory ─────────────────────────────────────
+-- Tenants directory
 CREATE TABLE IF NOT EXISTS tenants (
     id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    slug          text UNIQUE NOT NULL,   -- 'lcprod', 'olpasa', ...
+    slug          text UNIQUE NOT NULL,
     display_name  text NOT NULL,
     country       char(2) DEFAULT 'MA',
-    plan          text NOT NULL DEFAULT 'starter',   -- starter | pro | enterprise
+    plan          text NOT NULL DEFAULT 'starter',
     seat_limit    integer NOT NULL DEFAULT 25,
     active        boolean NOT NULL DEFAULT true,
     created_at    timestamptz NOT NULL DEFAULT now(),
@@ -47,9 +47,7 @@ INSERT INTO tenants (id, slug, display_name, country, plan, seat_limit)
 SELECT '00000000-0000-0000-0000-000000000001'::uuid, 'lcprod', 'L.C PROD', 'MA', 'pro', 200
 WHERE NOT EXISTS (SELECT 1 FROM tenants WHERE slug = 'lcprod');
 
--- ── Default backfill target ───────────────────────────────
--- Replace this UUID if you want existing data to belong to a
--- different tenant.
+-- Default backfill target
 DO $$
 DECLARE
     DEFAULT_TENANT uuid := '00000000-0000-0000-0000-000000000001';
@@ -71,15 +69,10 @@ BEGIN
             'audit_log'
         ])
     LOOP
-        -- Add tenant_id if missing
         EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS tenant_id uuid', tbl);
-        -- Backfill NULLs
         EXECUTE format('UPDATE %I SET tenant_id = %L WHERE tenant_id IS NULL', tbl, DEFAULT_TENANT);
-        -- Enforce NOT NULL
         EXECUTE format('ALTER TABLE %I ALTER COLUMN tenant_id SET NOT NULL', tbl);
-        -- Index for tenant-scoped scans
         EXECUTE format('CREATE INDEX IF NOT EXISTS %I ON %I (tenant_id)', tbl || '_tenant_idx', tbl);
-        -- Sensible default (from the JWT) so future INSERTs auto-populate
         EXECUTE format(
             'ALTER TABLE %I ALTER COLUMN tenant_id SET DEFAULT ' ||
             '((auth.jwt() -> ''user_metadata'' ->> ''tenant_id'')::uuid)',
@@ -88,7 +81,7 @@ BEGIN
     END LOOP;
 END $$;
 
--- ── Helper: current-user tenant ───────────────────────────
+-- Helper: current-user tenant
 CREATE OR REPLACE FUNCTION auth_tenant_id() RETURNS uuid
     LANGUAGE sql STABLE
     AS $$
@@ -98,10 +91,7 @@ CREATE OR REPLACE FUNCTION auth_tenant_id() RETURNS uuid
     );
 $$;
 
--- ── RLS policies: tenant-scoped SELECT and ALL ────────────
--- Replaces (or coexists with) per-workshop-rls.sql. If both are
--- present, the DB runs the intersection: user must be in the tenant
--- AND the workshop.
+-- RLS policies: tenant-scoped SELECT and ALL
 DO $$
 DECLARE
     tbl text;
@@ -141,7 +131,7 @@ CREATE POLICY "audit_log_tenant_select" ON audit_log FOR SELECT
 CREATE POLICY "audit_log_tenant_insert" ON audit_log FOR INSERT
     WITH CHECK (tenant_id = auth_tenant_id() OR auth_tenant_id() IS NULL);
 
--- ── tenants table itself: users see only their own tenant row ──
+-- tenants table itself: users see only their own tenant row
 ALTER TABLE tenants ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "tenants_own" ON tenants;
 CREATE POLICY "tenants_own" ON tenants FOR SELECT

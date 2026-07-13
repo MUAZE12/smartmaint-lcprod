@@ -399,6 +399,9 @@ export default function Header({ title, subtitle }: HeaderProps) {
                     )}
                 </div>
 
+                {/* Offline / pending-writes indicator — sits next to the bell */}
+                <OfflineIndicator />
+
                 {/* ===================== NOTIFICATIONS ===================== */}
                 <div ref={notifRef} style={{ position: 'relative' }}>
                     <button onClick={() => { setNotifOpen(!notifOpen); setSearchOpen(false); }}

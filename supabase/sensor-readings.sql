@@ -3,24 +3,24 @@
 --
 -- Real IoT ingestion for predictive maintenance.
 --
---   sensor_readings   raw time-series, one row per capture
---   sensor_thresholds per-metric alert bounds (per machine)
---   sensor_rollups_15m  materialized 15-minute rollup (avg/min/max/count)
+--   sensor_readings      raw time-series, one row per capture
+--   sensor_thresholds    per-metric alert bounds (per machine)
+--   sensor_rollups_15m   materialized 15-minute rollup (avg/min/max/count)
 --
 -- Idempotent. Realtime-published for the /synoptique live view.
 -- ============================================================
 
 BEGIN;
 
--- ── Raw stream ─────────────────────────────────────────────
+-- Raw stream
 CREATE TABLE IF NOT EXISTS sensor_readings (
     id           bigserial PRIMARY KEY,
     machine_id   text NOT NULL,
-    metric       text NOT NULL,      -- 'vibration' | 'temperature' | 'current' | 'pressure' | 'rpm'
+    metric       text NOT NULL,
     value        double precision NOT NULL,
-    unit         text,               -- 'mm/s' | 'C' | 'A' | 'bar' | 'rpm'
+    unit         text,
     ts           timestamptz NOT NULL DEFAULT now(),
-    source       text,               -- 'simulator' | 'plc' | 'modbus' | 'opc-ua'
+    source       text,
     created_at   timestamptz NOT NULL DEFAULT now()
 );
 
@@ -30,7 +30,7 @@ CREATE INDEX IF NOT EXISTS sensor_readings_machine_metric_ts
 CREATE INDEX IF NOT EXISTS sensor_readings_ts_desc
     ON sensor_readings (ts DESC);
 
--- ── Alert thresholds ───────────────────────────────────────
+-- Alert thresholds
 CREATE TABLE IF NOT EXISTS sensor_thresholds (
     id             text PRIMARY KEY,
     machine_id     text NOT NULL,
@@ -44,10 +44,9 @@ CREATE TABLE IF NOT EXISTS sensor_thresholds (
     UNIQUE (machine_id, metric)
 );
 
--- ── 15-minute rollups (window functions, not a materialized view
---    so INSERTs are cheap; recompute via a Vercel cron or on demand). ──
+-- 15-minute rollups
 CREATE TABLE IF NOT EXISTS sensor_rollups_15m (
-    id           text PRIMARY KEY,     -- machine_id||metric||bucket_start (epoch/900)
+    id           text PRIMARY KEY,
     machine_id   text NOT NULL,
     metric       text NOT NULL,
     bucket_start timestamptz NOT NULL,
@@ -62,7 +61,7 @@ CREATE TABLE IF NOT EXISTS sensor_rollups_15m (
 CREATE INDEX IF NOT EXISTS sensor_rollups_15m_machine_metric_bucket
     ON sensor_rollups_15m (machine_id, metric, bucket_start DESC);
 
--- ── RLS (permissive per project convention; UI enforces) ───
+-- RLS (permissive per project convention; UI enforces)
 ALTER TABLE sensor_readings   ENABLE ROW LEVEL SECURITY;
 ALTER TABLE sensor_thresholds ENABLE ROW LEVEL SECURITY;
 ALTER TABLE sensor_rollups_15m ENABLE ROW LEVEL SECURITY;
@@ -78,9 +77,7 @@ CREATE POLICY "sensor_rollups_all"    ON sensor_rollups_15m FOR ALL USING (true)
 GRANT ALL ON sensor_readings, sensor_thresholds, sensor_rollups_15m TO anon, authenticated, service_role;
 GRANT USAGE, SELECT ON sequence sensor_readings_id_seq TO anon, authenticated, service_role;
 
--- ── Realtime publication ───────────────────────────────────
--- Only the readings feed needs live pushes; rollups + thresholds
--- are read-mostly.
+-- Realtime publication
 DO $$
 BEGIN
     IF NOT EXISTS (
@@ -91,7 +88,7 @@ BEGIN
     END IF;
 END $$;
 
--- ── Convenience view: last known value per (machine, metric) ──
+-- Convenience view: last known value per (machine, metric)
 CREATE OR REPLACE VIEW sensor_latest AS
 SELECT DISTINCT ON (machine_id, metric)
     machine_id, metric, value, unit, ts, source
