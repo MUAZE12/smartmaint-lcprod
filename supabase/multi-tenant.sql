@@ -12,17 +12,18 @@
 --   - Every business table gets tenant_id NOT NULL DEFAULT (from JWT)
 --   - RLS policies compare row tenant_id to auth_tenant_id()
 --
+-- NOTE: audit_log has an append-only trigger from audit-log-forensic.sql.
+-- We DISABLE the trigger before backfilling audit_log's tenant_id, then
+-- re-enable it. The transaction wrap makes this atomic.
+--
 -- MIGRATION SAFE
 --   - Runs in a single transaction
---   - Backfills using the DEFAULT_TENANT constant below - replace
---     with your existing tenant UUID if you already have data
---   - ADD COLUMN IF NOT EXISTS, CREATE POLICY IF NOT EXISTS -
---     safe to re-run
+--   - Backfills using DEFAULT_TENANT constant below
+--   - ADD COLUMN IF NOT EXISTS, DROP POLICY IF EXISTS - safe to re-run
 --
--- ROLLBACK: policies revert to per-workshop or permissive by
--- re-running per-workshop-rls.sql or rls-rollback-permissive.sql.
--- To fully remove tenant_id, ALTER TABLE ... DROP COLUMN tenant_id
--- (destroys tenant separation - do only in dev).
+-- ROLLBACK: policies revert by re-running per-workshop-rls.sql or
+-- rls-rollback-permissive.sql. tenant_id column stays but is harmless
+-- with USING(true) policies.
 -- ============================================================
 
 BEGIN;
@@ -46,6 +47,19 @@ CREATE INDEX IF NOT EXISTS tenants_slug_idx ON tenants (slug);
 INSERT INTO tenants (id, slug, display_name, country, plan, seat_limit)
 SELECT '00000000-0000-0000-0000-000000000001'::uuid, 'lcprod', 'L.C PROD', 'MA', 'pro', 200
 WHERE NOT EXISTS (SELECT 1 FROM tenants WHERE slug = 'lcprod');
+
+-- Temporarily disable the audit_log append-only triggers so we can
+-- backfill tenant_id on historical rows. Re-enabled at end of block.
+-- Uses IF EXISTS in case audit-log-forensic.sql wasn't run yet.
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'audit_log_no_update') THEN
+        EXECUTE 'ALTER TABLE audit_log DISABLE TRIGGER audit_log_no_update';
+    END IF;
+    IF EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'audit_log_no_delete') THEN
+        EXECUTE 'ALTER TABLE audit_log DISABLE TRIGGER audit_log_no_delete';
+    END IF;
+END $$;
 
 -- Default backfill target
 DO $$
@@ -79,6 +93,17 @@ BEGIN
             tbl
         );
     END LOOP;
+END $$;
+
+-- Re-enable the audit_log append-only triggers
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'audit_log_no_update') THEN
+        EXECUTE 'ALTER TABLE audit_log ENABLE TRIGGER audit_log_no_update';
+    END IF;
+    IF EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'audit_log_no_delete') THEN
+        EXECUTE 'ALTER TABLE audit_log ENABLE TRIGGER audit_log_no_delete';
+    END IF;
 END $$;
 
 -- Helper: current-user tenant
