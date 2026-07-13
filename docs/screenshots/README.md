@@ -4,12 +4,12 @@ The 6 files referenced by the main [README.md](../../README.md) live here:
 
 | Filename | What it shows |
 |---|---|
-| `admin-dashboard.png` | Admin dashboard — KPI cards + alerts row + charts |
-| `machine-detail.png` | Machine card — QR code, criticality, KPIs, intervention history |
-| `procurement.png` | Procurement — requisitions / RFQ / quotes / POs |
-| `tutorial.png` | Interactive tutorial spotlight + narration bubble |
-| `operator-rtl.png` | Operator dashboard, Arabic RTL, giant tactile buttons |
-| `technician.png` | Technician "Mes Interventions" Kanban |
+| `admin-dashboard.jpg` | Admin dashboard — KPI cards + alerts row + charts |
+| `machine-detail.jpg` | Machine card — QR code, criticality, KPIs, intervention history |
+| `procurement.jpg` | Procurement — requisitions / RFQ / quotes / POs |
+| `tutorial.jpg` | Interactive tutorial spotlight + narration bubble |
+| `operator-rtl.jpg` | Operator dashboard, Arabic RTL, giant tactile buttons |
+| `technician.jpg` | Technician "Mes Interventions" Kanban |
 
 Guidelines for a fresh set:
 

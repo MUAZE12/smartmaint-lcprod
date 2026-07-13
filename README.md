@@ -63,32 +63,32 @@ It's not a toy CRUD. It's the kind of thing a small industrial software vendor w
 ### Admin — Dashboard
 KPI cards live-computed from the intervention history: MTBF, MTTR, availability, TRS, total cost. Alerts row on top (POs to approve, interventions to validate, preventive plans overdue, spare-part shortages, machines in breakdown). Workshop filter + 6/12-month time range. Breakdowns-per-month, interventions-by-type, cost-per-machine charts.
 
-![Admin dashboard](docs/screenshots/admin-dashboard.png)
+![Admin dashboard](docs/screenshots/admin-dashboard.jpg)
 
 ### Admin — Machine detail
 Every machine gets a card with its QR code, criticality badge, hourly downtime cost, importance score, and full KPI panel. Full history of interventions attached to that machine, drill-down to any past report.
 
-![Machine detail (FIL-001)](docs/screenshots/machine-detail.png)
+![Machine detail (FIL-001)](docs/screenshots/machine-detail.jpg)
 
 ### Admin — Procurement (SAP-style)
 Multi-line requisitions → itemized RFQ → weighted quote comparison → multi-line PO with approval → goods receipt (GRN) that updates stock. Automatic replenishment PRs when a part hits its minimum.
 
-![Procurement — requisitions](docs/screenshots/procurement.png)
+![Procurement — requisitions](docs/screenshots/procurement.jpg)
 
 ### Interactive tutorial (spotlight tour)
 Role-based guided tour with 70 declarative steps. Spotlight highlights the target, popover narrates. Injects mock DOM to demo screens with no real data. Cleans up after itself — no tour data ever reaches the DB.
 
-![Interactive tutorial](docs/screenshots/tutorial.png)
+![Interactive tutorial](docs/screenshots/tutorial.jpg)
 
 ### Operator — Arabic RTL kiosk
 Locked to `/operator/*`, forces Arabic locale. Giant tactile buttons: red panic, purple quality defect, orange EPI/consommable request. Live production batch counter with +1/+10 and target ratio. Recent breakdown reports at the bottom.
 
-![Operator RTL kiosk](docs/screenshots/operator-rtl.png)
+![Operator RTL kiosk](docs/screenshots/operator-rtl.jpg)
 
 ### Technician — Mes Interventions
 Mobile-friendly Kanban of assigned work orders. Chrono persisted to localStorage. Offline French voice dictation on every textarea (Whisper-small). Before/after photo tags. QR scanner to jump to a machine card.
 
-![Technician — Mes Interventions](docs/screenshots/technician.png)
+![Technician — Mes Interventions](docs/screenshots/technician.jpg)
 
 ---
 
