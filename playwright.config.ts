@@ -37,5 +37,12 @@ export default defineConfig({
         timeout: 300_000,
         stdout: 'pipe',
         stderr: 'pipe',
+        // CRITICAL: point Next.js's build output at a SEPARATE folder for E2E.
+        // Without this, `next dev` overwrites the same `.next/` that the
+        // shipped Windows launcher runs, producing "erreur de compilation"
+        // on the next `next start`. Cost us a live-user regression once.
+        env: {
+            NEXT_DIST_DIR: '.next-e2e',
+        },
     },
 });
