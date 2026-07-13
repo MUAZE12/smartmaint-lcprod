@@ -102,9 +102,11 @@ The full experience — offline Whisper voice dictation + auto-update — only m
 
 ## 🎥 Video demo
 
-**[3-minute walkthrough on YouTube](https://youtu.be/#video-coming-soon)**
+**▶ [Watch the walkthrough directly on GitHub](docs/video/smartmaint-demo.mp4)** (28 MB, 21 min)
 
-Shows: login → admin dashboard → intervention with voice dictation → operator RTL kiosk → in-app auto-update.
+Shows: login → admin dashboard → intervention with voice dictation → operator RTL kiosk → in-app auto-update, plus a full tour of the procurement flow, HACCP records, and the tutorial system.
+
+<video src="docs/video/smartmaint-demo.mp4" width="720" controls></video>
 
 ---
 

@@ -1,6 +1,6 @@
 # SmartMaint — L.C PROD · Product Backlog, Sprint Backlog & Project Evaluation
 
-> Last updated **2026-07-12** — Snapshot of the GMAO/CMMS for **L.C PROD** (agroalimentaire — huile d'olive et dérivés, simulation Moroccan plant).
+> Last updated **2026-07-13** — Snapshot of the GMAO/CMMS for **L.C PROD** (agroalimentaire — huile d'olive et dérivés, simulation Moroccan plant).
 >
 > Stack : Next.js 16 (Turbopack) · React 19 · TypeScript strict · Supabase (Postgres + Realtime + Auth + Storage, RLS ON avec politiques permissives) · Vercel + Cloudflare Worker (proxy Green API) · Inno Setup Windows installer · jsQR · Whisper-small · Resend (fallback Gmail SMTP).
 
@@ -134,7 +134,38 @@
 | Z2 | As an operator, I want a batch page that renders the operator view immediately from a cached role in localStorage (no double-click) | 3 |
 | Z3 | As an operator, I want subsequent tour steps to work cleanly after the quality-defect modal by dispatching a `smartmaint-demo-close-quality-modal` custom event | 2 |
 
-**Velocity to date :** ≈ 320 story points across the simulation.
+### Epic AA — Sprint 16 (2026-07-13) — one-session massive uplift, 27 stories
+| ID | User story | Pts |
+|---|---|---|
+| AA1 | Sentry-shim error tracking (lazy-load `@sentry/browser`, fallback to console + `audit_log`) | 3 |
+| AA2 | `GET /api/health` — probes Supabase, mail, secrets. 503 if degraded | 3 |
+| AA3 | `GET /api/metrics` — Prometheus format, `CRON_SECRET` gated | 3 |
+| AA4 | Distributed rate limiting (Upstash Redis + in-memory fallback), applied to `/api/errors` + `/api/kb/ask` | 5 |
+| AA5 | Forensic `audit_log` (ip / userAgent / sessionId / correlationId + append-only triggers) | 5 |
+| AA6 | `sensor_readings` + `sensor_thresholds` + `sensor_rollups_15m` + `sensor_latest` view | 5 |
+| AA7 | `POST /api/sensors` (batch 500/req, 10k/h) + `simulate-sensors.mjs` (drift + noise) | 5 |
+| AA8 | Media → Supabase Storage helpers (`uploadIntervenPhoto`, `migrateAttachment`) | 5 |
+| AA9 | `<Skeleton>` + `<SkeletonRow/Card/Table>` + `skeleton-shimmer` keyframe | 3 |
+| AA10 | `<EmptyState>` with 4 tones (default/success/warning/info) | 2 |
+| AA11 | `<UndoProvider>` + `queueUndo({description, rollback, ttlMs})` + `Ctrl+Z` | 5 |
+| AA12 | `<KeyboardShortcutsProvider>` + `useShortcut` hook + `?` cheatsheet overlay | 5 |
+| AA13 | Delta tracker (`markVisit` / `newSince`) — per-list "new since last visit" | 3 |
+| AA14 | Onboarding wizard (10 steps, progress persisted, dismissable) | 8 |
+| AA15 | Weekly director brief aggregator (`weeklyBrief.ts`) | 5 |
+| AA16 | Compliance calendar merging HACCP + calibration + preventive + certifs + LOTO | 5 |
+| AA17 | Tech-of-the-month leaderboard (100-pt scoring: volume + MTTR + preventive + compliance) | 5 |
+| AA18 | Escalation tree engine (per-criticality, `planEscalations()` pure) | 5 |
+| AA19 | Per-workshop RLS (`auth_role`, `auth_workshop_access`, `auth_is_admin` helpers) + client mirror | 13 |
+| AA20 | `<OfflineIndicator>` in Header + `<InstallPWAPrompt>` (Android + iOS hint) | 3 |
+| AA21 | RAG on KB: pgvector + HNSW + `match_kb()` RPC + `/api/kb/ask` (Claude Haiku answers) | 13 |
+| AA22 | Multi-tenant: `tenant_id` on 38 tables + `auth_tenant_id()` + tenant-isolation policies | 13 |
+| AA23 | Voice intent parser (FR + AR NL, 10 intent kinds, digit + word number extraction) | 5 |
+| AA24 | Predictive spare-parts (linear-fit on 12-week consumption, `shouldReorder`, `suggestedOrderQty`) | 5 |
+| AA25 | AR-style QR overlay on camera feed (`<ARMachineOverlay>` — jsQR + CSS overlay) | 8 |
+| AA26 | Photo-defect classifier (TF.js MobileNet + kNN, 7 classes, <200ms) | 8 |
+| AA27 | Cross-shift voice handover structuring (headline + ongoing + LOTOs + voice highlights) | 5 |
+
+**Velocity to date :** ≈ 470 story points across the simulation (Sprint 16 alone: +150 pts).
 
 ---
 
