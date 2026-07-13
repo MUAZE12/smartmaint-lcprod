@@ -6,10 +6,13 @@
 --
 -- Adds:
 --   ip                inet     : normalized IP (v4 or v6)
---   user_agent        text     : browser or tablet UA
---   session_id        text     : Supabase Auth JWT jti
---   correlation_id    text     : request-scoped trace id
---   ip_country        char(2)  : best-effort geo (populated by app)
+--   userAgent         text     : browser or tablet UA
+--   sessionId         text     : Supabase Auth JWT jti
+--   correlationId     text     : request-scoped trace id
+--   ipCountry         char(2)  : best-effort geo (populated by app)
+--
+-- Uses the same camelCase quoted convention as the existing table
+-- (see audit-calibration.sql).
 --
 -- Idempotent - safe to re-run.
 -- ============================================================
@@ -17,17 +20,17 @@
 BEGIN;
 
 ALTER TABLE audit_log
-    ADD COLUMN IF NOT EXISTS ip              inet,
-    ADD COLUMN IF NOT EXISTS user_agent      text,
-    ADD COLUMN IF NOT EXISTS session_id      text,
-    ADD COLUMN IF NOT EXISTS correlation_id  text,
-    ADD COLUMN IF NOT EXISTS ip_country      char(2);
+    ADD COLUMN IF NOT EXISTS ip                inet,
+    ADD COLUMN IF NOT EXISTS "userAgent"       text,
+    ADD COLUMN IF NOT EXISTS "sessionId"       text,
+    ADD COLUMN IF NOT EXISTS "correlationId"   text,
+    ADD COLUMN IF NOT EXISTS "ipCountry"       char(2);
 
 -- Indexes to make forensic queries fast:
-CREATE INDEX IF NOT EXISTS audit_log_ip_idx             ON audit_log (ip)             WHERE ip IS NOT NULL;
-CREATE INDEX IF NOT EXISTS audit_log_session_idx        ON audit_log (session_id)     WHERE session_id IS NOT NULL;
-CREATE INDEX IF NOT EXISTS audit_log_correlation_idx    ON audit_log (correlation_id) WHERE correlation_id IS NOT NULL;
-CREATE INDEX IF NOT EXISTS audit_log_author_created_idx ON audit_log (author, created_at DESC);
+CREATE INDEX IF NOT EXISTS audit_log_ip_idx             ON audit_log (ip)               WHERE ip IS NOT NULL;
+CREATE INDEX IF NOT EXISTS audit_log_session_idx        ON audit_log ("sessionId")      WHERE "sessionId" IS NOT NULL;
+CREATE INDEX IF NOT EXISTS audit_log_correlation_idx    ON audit_log ("correlationId")  WHERE "correlationId" IS NOT NULL;
+CREATE INDEX IF NOT EXISTS audit_log_user_created_idx   ON audit_log ("userName", "createdAt" DESC);
 
 -- Reinforce the append-only posture: no UPDATE, no DELETE, ever.
 -- (RLS policies enforce this from the app side; a trigger backstops it

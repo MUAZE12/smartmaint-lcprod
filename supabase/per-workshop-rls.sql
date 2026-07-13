@@ -10,8 +10,9 @@
 --     role: 'admin' or 'technician' or 'operator'
 --     workshop_access: text[]  e.g. ['Reception MP', 'Production']
 --
---   A machine has workshop text NOT NULL. Interventions inherit
---   through machine_id -> machines.workshop.
+--   A machine has workshop text. Interventions inherit through
+--   "machineId" -> machines.workshop. Uses the existing camelCase
+--   quoted column names ("machineId", "createdAt", etc).
 --
 -- ROLLBACK: run rls-rollback-permissive.sql. RLS stays ON, policies
 -- go back to USING(true). Nothing breaks.
@@ -77,7 +78,7 @@ CREATE POLICY "machines_workshop_write_tech" ON machines FOR ALL
         OR (auth_role() = 'technician' AND workshop = ANY (auth_workshop_access()))
     );
 
--- interventions
+-- interventions ("machineId" quoted, per project convention)
 DROP POLICY IF EXISTS "interventions_all"             ON interventions;
 DROP POLICY IF EXISTS "interventions_workshop_select" ON interventions;
 DROP POLICY IF EXISTS "interventions_workshop_write"  ON interventions;
@@ -87,7 +88,7 @@ CREATE POLICY "interventions_workshop_select" ON interventions FOR SELECT
         auth_is_admin()
         OR EXISTS (
             SELECT 1 FROM machines m
-            WHERE m.id = interventions.machine_id
+            WHERE m.id = interventions."machineId"
               AND m.workshop = ANY (auth_workshop_access())
         )
     );
@@ -97,7 +98,7 @@ CREATE POLICY "interventions_workshop_write" ON interventions FOR ALL
         auth_is_admin()
         OR (auth_role() = 'technician' AND EXISTS (
             SELECT 1 FROM machines m
-            WHERE m.id = interventions.machine_id
+            WHERE m.id = interventions."machineId"
               AND m.workshop = ANY (auth_workshop_access())
         ))
     )
@@ -105,7 +106,7 @@ CREATE POLICY "interventions_workshop_write" ON interventions FOR ALL
         auth_is_admin()
         OR (auth_role() = 'technician' AND EXISTS (
             SELECT 1 FROM machines m
-            WHERE m.id = interventions.machine_id
+            WHERE m.id = interventions."machineId"
               AND m.workshop = ANY (auth_workshop_access())
         ))
     );
@@ -117,19 +118,19 @@ DROP POLICY IF EXISTS "production_batches_scoped"   ON production_batches;
 CREATE POLICY "production_batches_scoped" ON production_batches FOR ALL
     USING (
         auth_is_admin()
-        OR machine_id IS NULL
+        OR "machineId" IS NULL
         OR EXISTS (
             SELECT 1 FROM machines m
-            WHERE m.id = production_batches.machine_id
+            WHERE m.id = production_batches."machineId"
               AND m.workshop = ANY (auth_workshop_access())
         )
     )
     WITH CHECK (
         auth_is_admin()
-        OR machine_id IS NULL
+        OR "machineId" IS NULL
         OR EXISTS (
             SELECT 1 FROM machines m
-            WHERE m.id = production_batches.machine_id
+            WHERE m.id = production_batches."machineId"
               AND m.workshop = ANY (auth_workshop_access())
         )
     );
@@ -143,7 +144,7 @@ CREATE POLICY "loto_records_scoped" ON loto_records FOR ALL
         auth_is_admin()
         OR EXISTS (
             SELECT 1 FROM machines m
-            WHERE m.id = loto_records.machine_id
+            WHERE m.id = loto_records."machineId"
               AND m.workshop = ANY (auth_workshop_access())
         )
     )
@@ -151,7 +152,7 @@ CREATE POLICY "loto_records_scoped" ON loto_records FOR ALL
         auth_is_admin()
         OR EXISTS (
             SELECT 1 FROM machines m
-            WHERE m.id = loto_records.machine_id
+            WHERE m.id = loto_records."machineId"
               AND m.workshop = ANY (auth_workshop_access())
         )
     );
