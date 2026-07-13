@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <a href="#-live-demo"><img alt="Live demo" src="https://img.shields.io/badge/live-demo-2563eb?style=for-the-badge"></a>
+  <a href="https://smartmaint-lcprod.vercel.app"><img alt="Live demo" src="https://img.shields.io/badge/live-demo-2563eb?style=for-the-badge"></a>
   <a href="#-video-demo"><img alt="Video" src="https://img.shields.io/badge/video-3min-ef4444?style=for-the-badge&logo=youtube&logoColor=white"></a>
   <a href="#-getting-started"><img alt="Setup" src="https://img.shields.io/badge/setup-npm%20install-16a34a?style=for-the-badge"></a>
 </p>
@@ -60,24 +60,43 @@ It's not a toy CRUD. It's the kind of thing a small industrial software vendor w
 
 ## 📷 Screenshots
 
-> Add PNG/GIF exports here after your first record. Suggested filenames + one-line captions below.
+### Admin — Dashboard
+KPI cards live-computed from the intervention history: MTBF, MTTR, availability, TRS, total cost. Alerts row on top (POs to approve, interventions to validate, preventive plans overdue, spare-part shortages, machines in breakdown). Workshop filter + 6/12-month time range. Breakdowns-per-month, interventions-by-type, cost-per-machine charts.
 
-| Screen | File | Caption |
-|---|---|---|
-| Admin dashboard | `docs/screenshots/admin-dashboard.png` | KPI cards (MTBF, MTTR, availability, cost) + machines-at-risk panel |
-| Machines inventory | `docs/screenshots/machines.png` | QR code per machine, criticality badge, drill-down to health history |
-| Operator dashboard (Arabic RTL) | `docs/screenshots/operator-rtl.png` | Panic button, quality defect, EPI request — kiosk-friendly |
-| Procurement flow | `docs/screenshots/procurement.png` | Line-item RFQ → weighted quote comparison → PO |
-| Interactive tutorial | `docs/screenshots/tutorial.gif` | Role-based guided tour with spotlight + captions |
-| Auto-update banner | `docs/screenshots/update-notifier.png` | In-app "Mettre à jour" — downloads, extracts, restarts |
+![Admin dashboard](docs/screenshots/admin-dashboard.png)
+
+### Admin — Machine detail
+Every machine gets a card with its QR code, criticality badge, hourly downtime cost, importance score, and full KPI panel. Full history of interventions attached to that machine, drill-down to any past report.
+
+![Machine detail (FIL-001)](docs/screenshots/machine-detail.png)
+
+### Admin — Procurement (SAP-style)
+Multi-line requisitions → itemized RFQ → weighted quote comparison → multi-line PO with approval → goods receipt (GRN) that updates stock. Automatic replenishment PRs when a part hits its minimum.
+
+![Procurement — requisitions](docs/screenshots/procurement.png)
+
+### Interactive tutorial (spotlight tour)
+Role-based guided tour with 70 declarative steps. Spotlight highlights the target, popover narrates. Injects mock DOM to demo screens with no real data. Cleans up after itself — no tour data ever reaches the DB.
+
+![Interactive tutorial](docs/screenshots/tutorial.png)
+
+### Operator — Arabic RTL kiosk
+Locked to `/operator/*`, forces Arabic locale. Giant tactile buttons: red panic, purple quality defect, orange EPI/consommable request. Live production batch counter with +1/+10 and target ratio. Recent breakdown reports at the bottom.
+
+![Operator RTL kiosk](docs/screenshots/operator-rtl.png)
+
+### Technician — Mes Interventions
+Mobile-friendly Kanban of assigned work orders. Chrono persisted to localStorage. Offline French voice dictation on every textarea (Whisper-small). Before/after photo tags. QR scanner to jump to a machine card.
+
+![Technician — Mes Interventions](docs/screenshots/technician.png)
 
 ---
 
 ## 🌐 Live demo
 
-> A public Vercel deployment is planned. For now, the fastest way to see the app in action is the video demo below, or clone + run locally (see [Getting started](#-getting-started)).
+**[smartmaint-lcprod.vercel.app](https://smartmaint-lcprod.vercel.app)** — public browser preview on Vercel.
 
-The full experience — offline Whisper voice dictation + auto-update — only makes sense as the Windows installer (see [Deployment](#-deployment)). The browser demo will be a read-only preview of the admin dashboard.
+The full experience — offline Whisper voice dictation + auto-update — only makes sense as the Windows installer (see [Deployment](#-deployment)). The browser demo is a live snapshot of the admin, technician, and operator UIs backed by the same Supabase project.
 
 ---
 
