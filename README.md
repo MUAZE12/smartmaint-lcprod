@@ -75,17 +75,9 @@ It's not a toy CRUD. It's the kind of thing a small industrial software vendor w
 
 ## 🌐 Live demo
 
-**[demo.smartmaint-lcprod.vercel.app](https://demo.smartmaint-lcprod.vercel.app)** — read-only seeded admin tenant. No signup required.
+> A public Vercel deployment is planned. For now, the fastest way to see the app in action is the video demo below, or clone + run locally (see [Getting started](#-getting-started)).
 
-Test credentials (read-only):
-
-| Role | Email | Password |
-|---|---|---|
-| Admin | `demo-admin@smartmaint.app` | `demo-admin` |
-| Technician | `demo-tech@smartmaint.app` | `demo-tech` |
-| Operator | `demo-operator@smartmaint.app` | `demo-operator` |
-
-> The Vercel deploy is a browser-only preview. The full Windows installer with offline Whisper + auto-update ships separately; see [Deployment](#-deployment).
+The full experience — offline Whisper voice dictation + auto-update — only makes sense as the Windows installer (see [Deployment](#-deployment)). The browser demo will be a read-only preview of the admin dashboard.
 
 ---
 
@@ -363,9 +355,9 @@ Being honest about the gaps — these are the real things I'd fix if I started o
 
 ## 📄 License
 
-MIT © 2026 [Your Name](https://github.com/MUAZE12) — see [`LICENSE`](LICENSE) for details.
+MIT © 2026 [Mustapha Baroudi](https://github.com/MUAZE12) — see [`LICENSE`](LICENSE) for details.
 
-Built as a Master's / final-year engineering project to demonstrate industrial-software architecture, real-time systems, and Windows deployment at scale.
+Built as a personal academic project to demonstrate industrial-software architecture, real-time systems, and Windows deployment at scale.
 
 ---
 
