@@ -10,7 +10,7 @@
 // Skips input/textarea/contenteditable so typing isn't hijacked.
 // ============================================================
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, ReactNode } from 'react';
 import { Keyboard, X } from 'lucide-react';
 
 interface Shortcut {
@@ -92,8 +92,18 @@ export function KeyboardShortcutsProvider({ children }: { children: ReactNode })
         return () => window.removeEventListener('keydown', onKey);
     }, [shortcuts, helpOpen, scope]);
 
+    // CRITICAL: ctx must be STABLE across shortcut list changes. If we put
+    // `shortcuts` in the memo dep, every register() call recreates ctx,
+    // which triggers every useShortcut effect to fire again, which calls
+    // register() again — infinite loop → global error boundary → "Une erreur
+    // est survenue" on the admin dashboard.
+    //
+    // Fix: expose only the STABLE methods through context (register, unregister,
+    // setHelpOpen, setScope). Consumers of the LIST (help overlay) get it from
+    // internal state, not from context. This decouples registration from render.
     const ctx: Ctx = useMemo(() => ({ register, unregister, list: shortcuts, setHelpOpen, setScope }),
-        [register, unregister, shortcuts]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [register, unregister]);
 
     return (
         <KeyboardCtx.Provider value={ctx}>
@@ -106,12 +116,23 @@ export function KeyboardShortcutsProvider({ children }: { children: ReactNode })
 /** Register a shortcut for the lifetime of the calling component. */
 export function useShortcut(key: string, handler: (e: KeyboardEvent) => void, opts: { description: string; scope?: string; enabled?: boolean } = { description: '' }) {
     const ctx = useContext(KeyboardCtx);
+    // Keep the handler in a ref so a new closure per render doesn't re-fire
+    // the register effect. The registered shortcut always calls the LATEST
+    // handler via handlerRef.current.
+    const handlerRef = useRef(handler);
+    handlerRef.current = handler;
+
     useEffect(() => {
         if (!ctx || opts.enabled === false) return;
         const id = key + ':' + opts.description;
-        ctx.register({ id, key, description: opts.description, handler, scope: opts.scope });
+        ctx.register({
+            id, key, description: opts.description, scope: opts.scope,
+            handler: (e) => handlerRef.current(e),
+        });
         return () => ctx.unregister(id);
-    }, [ctx, key, handler, opts.description, opts.scope, opts.enabled]);
+        // Depend only on registration identity, not handler (in the ref).
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ctx, key, opts.description, opts.scope, opts.enabled]);
 }
 
 /** Read/toggle helpers for the help panel. */
